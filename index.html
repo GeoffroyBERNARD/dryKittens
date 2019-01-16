@@ -127,7 +127,6 @@ button:hover{
    <body>
 
 	<div id="app" class="container">
-
 		<div class="flex-container">
 			<button onclick="showAll()">Voir Tout</button>
 			<button onclick="pull(app.players[0], 0)">Baron</button>
@@ -138,11 +137,6 @@ button:hover{
 			<button onclick="pull(app.players[5], 0)">Greenfinite</button>
 			<button onclick="pull(app.players[6], 0)">Jadixa</button>
 		</div>
-
-
-
-
-
 		<div v-for="player in players">
 			<div class="flex-container char" v-if="player.display">
 				<img v-bind:src="player.playerIcon" />
@@ -155,7 +149,6 @@ button:hover{
 					<img class="rank" v-bind:src="player.rankIcon" /> Rang Max : {{player.maxRank}}<br>
 					<img class="rank" v-bind:src="player.averageRankIcon" /> Rang Moyen : {{player.averageRank}}<br>
 					<span class="green">{{player.wins}}</span> - <span class="orange">{{player.draws}}</span> - <span class="red">{{player.loss}}</span> - <span v-bind:class="player.winrateColor">{{player.winrate}} %</span>
-			
 				</div>
 			</div>
 		</div>
@@ -300,8 +293,26 @@ let app = new Vue({
   el: '#app',
   data: {
     players: [Baron, Metodios, Alykas, Veybex, Aku, Greenfinite, Jadixa]
-  }
-})
+  },
+  mounted() {
+    if (localStorage.getItem('players')) {
+		try {
+        this.players = JSON.parse(localStorage.getItem('players'));
+      }
+	  catch(e) {
+        localStorage.removeItem('players');
+      }
+    }
+  },
+});
+
+function save(){
+	localStorage.setItem('players', JSON.stringify(app.players));
+	console.log("saved");
+}
+
+
+
 
 //fetch player stats (index is smurf n°index n°0 for main)
 function pull( player, index ){
@@ -318,12 +329,10 @@ function pull( player, index ){
 
 		//check if rate limited
 		if (data.error == 429){
-			if (index == 0) player.display = false;
 			setTimeout( function(){pull(player, index)},10000);
 			console.log(player.battletags[index] + "ratelimited")
 		}
 		else if (data.error == 500){
-			if (index == 0) player.display = false;
 			console.log(player.battletags[index] + " private")
 		}
 		else{
@@ -358,6 +367,7 @@ function pull( player, index ){
 					player.averageRankIcon = player.rankIcon;
 
 					player.display = true;
+					save();
 				}
 			}
 			else {
@@ -388,6 +398,8 @@ function pull( player, index ){
 					else if (player.maxRank>=2500) player.rankIcon="./plat.png";
 					else player.rankIcon="./gold.png";
 				}
+
+				save();
 			}
 				
 
