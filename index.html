@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dry kittens</title>
+<link rel="icon" type="image/x-icon" href="https://d3hmvhl7ru3t12.cloudfront.net/img/favicon-bb6200267bbdea6fdc9eb498a88722007dad6eb3b3c6437440025c66cb055fefdd1fbedf3886bd069fc3547c79fa8afee4795a278a644f6cfe10a7b1144f48bb.ico">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+<script defer src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+<script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+
+<style>
+
+.container{
+	background-color: rgba(255,255,255,0.5)
+}
+
+@font-face {
+   font-family: "bit";
+   src: url("./PixelOperator8.ttf");
+}
+
+@font-face {
+    font-family: "bit";
+    src: url("./PixelOperator8-Bold.ttf");
+    font-weight: bold;
+}
+
+
+.rank{
+	width: 50px;
+}
+
+a{
+	color:black;
+}
+
+a:hover {
+	color:#1f2f49;
+}
+
+li .active {
+	background-color:rgba(28, 26, 25, 0.50) !important;
+}
+
+div .match{
+	background-color:rgba(50, 50, 50, 0.20) !important;
+	border-radius : 20 !important;
+}
+
+.lead{
+		color:#1f2f49;
+}
+
+
+.hero{
+	border-style:solid;
+	border-color:rgba(28, 26, 25, 0.80);
+	border-radius:20px;
+	border-size:1px;
+}
+
+.caracters{
+	padding-left:80px;
+	
+}
+
+body{
+    background-image:url("./bg.jpg");
+    background-size: cover;
+}
+
+.bit{   font-family: "bit"!important;
+    
+}
+
+span{   font-family: "bit"!important;}
+
+.red{color:red;}
+.orange{color:#a83c12;}
+.green{color:green;}
+
+.flex-container{
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	justify-content: space-evenly;
+	align-items: center;
+	padding: 1em;
+}
+
+button{
+	font-family: "bit"!important;
+	background-color: #75604b;
+	box-shadow: -1px 2px 10px 3px rgba(0, 0, 0, 0.3) inset;
+	color: black;
+	padding: 1em;
+	border-radius: 1em;
+	border-style: solid;
+	border-color: rgba(0,0,0,0);
+	cursor: pointer;
+}
+
+button:hover{
+	color :white;
+	transition: 1s;
+}
+
+#app{
+	box-shadow: -1px 2px 10px 3px rgba(0, 0, 0, 0.3) inset;
+	height: 100vh;
+	background-color: rgba(255,255,255,0.3);
+	color: black;
+}
+
+.char{
+	margin-top: 1em;
+	box-shadow: -1px 2px 10px 3px rgba(0, 0, 0, 0.3) inset;
+	background-color: rgba(117,96,75,0.2);
+}
+
+
+ </style>
+
+   </head>
+   
+   <body>
+
+	<div id="app" class="container">
+
+		<div class="flex-container">
+			<button onclick="showAll()">Voir Tout</button>
+			<button onclick="pull(app.players[0], 0)">Baron</button>
+			<button onclick="pull(app.players[1], 0)">Meto</button>
+			<button onclick="pull(app.players[2], 0)">Sacha</button>
+			<button onclick="pull(app.players[3], 0)">Veybex</button>
+			<button onclick="pull(app.players[4], 0)">Aku</button>
+			<button onclick="pull(app.players[5], 0)">Greenfinite</button>
+			<button onclick="pull(app.players[6], 0)">Jadixa</button>
+		</div>
+
+
+
+
+
+		<div v-for="player in players">
+			<div class="flex-container char" v-if="player.display">
+				<img v-bind:src="player.playerIcon" />
+				<div>
+					{{player.name}}<br>
+					Niveau : {{player.level}}<br>
+					Endorsement : {{player.endorsement}}
+				</div>
+				<div>
+					<img class="rank" v-bind:src="player.rankIcon" /> Rang Max : {{player.maxRank}}<br>
+					<img class="rank" v-bind:src="player.averageRankIcon" /> Rang Moyen : {{player.averageRank}}<br>
+					<span class="green">{{player.wins}}</span> - <span class="orange">{{player.draws}}</span> - <span class="red">{{player.loss}}</span> - <span v-bind:class="player.winrateColor">{{player.winrate}} %</span>
+			
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	
+
+
+
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script>
+
+
+let Baron = {
+	"name" : "BaronGOF",
+	"battletags" : ["BaronGOF-2402", "TheDebaser-21783"],
+	"level" : null,
+	"rankIcon" : null,
+	"averageRankIcon" : null,
+	"maxRank" : null,
+	"averageRank" : null,
+	"playerIcon" : "https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x02500000000017A8.png",
+	"wins" : null,
+	"winrate" : null,
+	"loss" : null,
+	"draws" : null,
+	"winrateColor" : null,
+	"endorsement" : null,
+	"display" : false
+}
+
+let Metodios = {
+	"name" : "Metodios",
+	"battletags" : ["Metodios-2865", "Motodies-2516"],
+	"level" : 0,
+	"rankIcon" : null,
+	"averageRankIcon" : null,
+	"maxRank" : null,
+	"averageRank" : null,
+	"playerIcon" : null,
+	"wins" : null,
+	"winrate" : null,
+	"loss" : null,
+	"draws" : null,
+	"winrateColor" : null,
+	"endorsement" : null,
+	"display" : false
+}
+
+let Alykas = {
+	"name" : "Alykas",
+	"battletags" : ["Alykas-2309", "Sacha-21922", "Sacha-21159"],
+	"level" : 0,
+	"rankIcon" : null,
+	"averageRankIcon" : null,
+	"maxRank" : null,
+	"averageRank" : null,
+	"playerIcon" : null,
+	"wins" : null,
+	"winrate" : null,
+	"loss" : null,
+	"draws" : null,
+	"winrateColor" : null,
+	"endorsement" : null,
+	"display" : false
+}
+
+let Veybex = {
+	"name" : "Veybex",
+	"battletags" : ["Veybex-2428", "Sparks-21157"],
+	"level" : 0,
+	"rankIcon" : null,
+	"averageRankIcon" : null,
+	"maxRank" : null,
+	"averageRank" : null,
+	"playerIcon" : null,
+	"wins" : null,
+	"winrate" : null,
+	"loss" : null,
+	"draws" : null,
+	"winrateColor" : null,
+	"endorsement" : null,
+	"display" : false
+}
+
+let Aku = {
+	"name" : "Aku",
+	"battletags" : ["Aku-22455"],
+	"level" : 0,
+	"rankIcon" : null,
+	"averageRankIcon" : null,
+	"maxRank" : null,
+	"averageRank" : null,
+	"playerIcon" : null,
+	"wins" : null,
+	"winrate" : null,
+	"loss" : null,
+	"draws" : null,
+	"winrateColor" : null,
+	"endorsement" : null,
+	"display" : false
+}
+
+let Greenfinite = {
+	"name" : "Greenfinite",
+	"battletags" : ["Greenfinite-2408"],
+	"level" : 0,
+	"rankIcon" : null,
+	"averageRankIcon" : null,
+	"maxRank" : null,
+	"averageRank" : null,
+	"playerIcon" : null,
+	"wins" : null,
+	"winrate" : null,
+	"loss" : null,
+	"draws" : null,
+	"winrateColor" : null,
+	"endorsement" : null,
+	"display" : false
+}
+
+let Jadixa = {
+	"name" : "Jadixa",
+	"battletags" : ["Jadixa-2738"],
+	"level" : 0,
+	"rankIcon" : null,
+	"averageRankIcon" : null,
+	"maxRank" : null,
+	"averageRank" : null,
+	"playerIcon" : null,
+	"wins" : null,
+	"winrate" : null,
+	"loss" : null,
+	"draws" : null,
+	"winrateColor" : null,
+	"endorsement" : null,
+	"display" : false
+}
+
+let app = new Vue({
+  el: '#app',
+  data: {
+    players: [Baron, Metodios, Alykas, Veybex, Aku, Greenfinite, Jadixa]
+  }
+})
+
+//fetch player stats (index is smurf n°index n°0 for main)
+function pull( player, index ){
+	
+	let url = 'https://owapi.net/api/v3/u/' + player.battletags[index] + '/blob';
+
+	fetch(url) 
+	.then(function(data) {
+		data = data.json(); 
+		return data;
+	}).then(function(data){
+
+		console.log(data);
+
+		//check if rate limited
+		if (data.error == 429){
+			if (index == 0) player.display = false;
+			setTimeout( function(){pull(player, index)},10000);
+			console.log(player.battletags[index] + "ratelimited")
+		}
+		else if (data.error == 500){
+			if (index == 0) player.display = false;
+			console.log(player.battletags[index] + " private")
+		}
+		else{
+			if (index == 0){
+
+				if (data.eu.stats.competitive.overall_stats.comprank){
+
+					//getting stats
+					player.maxRank =  data.eu.stats.competitive.overall_stats.comprank;
+					player.averageRank =  data.eu.stats.competitive.overall_stats.comprank;
+					player.wins = data.eu.stats.competitive.overall_stats.wins;
+					player.playerIcon = data.eu.stats.competitive.overall_stats.avatar;
+					player.loss = data.eu.stats.competitive.overall_stats.losses;
+					player.games = data.eu.stats.competitive.overall_stats.games;
+					player.draws = data.eu.stats.competitive.overall_stats.ties;
+					player.winrate = data.eu.stats.competitive.overall_stats.win_rate;
+					player.endorsement = data.eu.stats.competitive.overall_stats.endorsement_level;
+					player.rankTotal = data.eu.stats.competitive.overall_stats.comprank;
+
+					if (player.winrate > 51) player.winrateColor="green";
+					else if (player.winrate> 49) player.winrateColor="orange";
+					else player.winrateColor="red";
+
+					player.level = data.eu.stats.competitive.overall_stats.level + 100 * data.eu.stats.competitive.overall_stats.prestige;
+						
+					if (player.maxRank>=4000) player.rankIcon="./gm.png";
+					else if (player.maxRank>=3500) player.rankIcon="./master.png";
+					else if (player.maxRank>=3000) player.rankIcon="./diamant.png";
+					else if (player.maxRank>=2500) player.rankIcon="./plat.png";
+					else player.rankIcon="./gold.png";
+
+					player.averageRankIcon = player.rankIcon;
+
+					player.display = true;
+				}
+			}
+			else {
+
+				//calculating average rank
+				player.rankTotal += data.eu.stats.competitive.overall_stats.comprank;
+				player.averageRank = player.rankTotal / (index + 1)
+
+				if (player.averageRank>=4000) player.averageRankIcon="./gm.png";
+				else if (player.averageRank>=3500) player.averageRankIcon="./master.png";
+				else if (player.averageRank>=3000) player.averageRankIcon="./diamant.png";
+				else if (player.averageRank>=2500) player.averageRankIcon="./plat.png";
+				else player.rankIcon="./gold.png";
+
+				//calculating total
+				player.wins += data.eu.stats.competitive.overall_stats.wins;
+				player.loss += data.eu.stats.competitive.overall_stats.losses;
+				player.games += data.eu.stats.competitive.overall_stats.games;
+				player.draws += data.eu.stats.competitive.overall_stats.ties;
+				player.winrate = (Math.round(((player.games * 100) / player.loss)* 10) / 10) / 4;
+
+				//if new best rank
+				if (data.eu.stats.competitive.overall_stats.comprank > player.maxRank){
+					player.maxRank = data.eu.stats.competitive.overall_stats.comprank;
+					if (player.maxRank>=4000) player.rankIcon="./gm.png";
+					else if (player.maxRank>=3500) player.rankIcon="./master.png";
+					else if (player.maxRank>=3000) player.rankIcon="./diamant.png";
+					else if (player.maxRank>=2500) player.rankIcon="./plat.png";
+					else player.rankIcon="./gold.png";
+				}
+			}
+				
+
+			if (player.battletags.length > index + 1){
+				setTimeout(function(){pull(player, index + 1)},10000);
+			}
+
+		}
+	});
+}
+
+function showAll(){
+	pull(app.players[0], 0);
+	setTimeout(function(){pull(app.players[1], 0)},5000);
+	setTimeout(function(){pull(app.players[2], 0)},10000);
+	setTimeout(function(){pull(app.players[3], 0)},15000);
+	setTimeout(function(){pull(app.players[4], 0)},20000);
+	setTimeout(function(){pull(app.players[5], 0)},25000);
+	setTimeout(function(){pull(app.players[6], 0)},30000);
+}
+
+
+
+
+
+
+/*
+var tot = 0;
+var jou = 0;
+var val = 0;
+
+function getHeroes(btag,divname){
+	if (document.getElementById(divname).innerHTML.length < 4){
+		var url = 'https://owapi.net/api/v3/u/' + btag + '/heroes';
+		fetch(url) 
+	.then(function(data) {
+		data = data.json(); 
+		return data;
+	}).then(function(data){
+		mostplayed = data.eu.heroes.playtime.competitive;
+		var most1=0; var most11="";
+		var most2=0; var most22="";
+		var most3=0; var most33="";
+		var most4=0; var most44="";
+		var most5=0; var most55="";
+		
+		for (j=0;j<5;j++){
+		for (i=0;i<26;i++){
+			var key = Object.keys(mostplayed)[i];
+			value = mostplayed[key];
+			if (value >= most1){most1=value;most11=key;}
+			else if (value >= most2){most2=value;most22=key;}
+			else if (value >= most3){most3=value;most33=key;}
+			else if (value >= most4){most4=value;most44=key;}
+			else if (value >= most5){most5=value;most55=key;}
+		}
+		}
+		
+		if (most1 > 1 ){most1 ='<span class="bit">' + Math.trunc(most1) +'</span>h<span class="bit">' + Math.trunc(most1 % 1 *60) + "</span>";}
+		else{most1 = '<span class="bit">' + Math.trunc(most1 % 1 *60) + "</span>min ";}
+		
+		if (most2 > 1 ){most2 ='<span class="bit">' + Math.trunc(most2) +'</span>h<span class="bit">' + Math.trunc(most2 % 1 *60) + "</span>";}
+		else{most2 ='<span class="bit">' + Math.trunc(most2 % 1 *60) + "</span>min ";}
+		
+		if (most3 > 1 ){most3 ='<span class="bit">' + Math.trunc(most3) +'</span>h<span class="bit">' + Math.trunc(most3 % 1 *60) + "</span>";}
+		else{most3 ='<span class="bit">' + Math.trunc(most3 % 1 *60) + "</span>min ";}
+		
+		if (most4 > 1 ){most4 ='<span class="bit">' + Math.trunc(most4) +'</span>h<span class="bit">' + Math.trunc(most4 % 1 *60) + "</span>";}
+		else{most4 ='<span class="bit">' + Math.trunc(most4 % 1 *60) + "</span>min ";}
+		
+		if (most5 > 1 ){most5 ='<span class="bit">' + Math.trunc(most5) +'</span>h<span class="bit">' + Math.trunc(most5 % 1 *60) + "</span>";}
+		else{most5 ='<span class="bit">' + Math.trunc(most5 % 1 *60) + "</span>min ";}
+		
+		if (document.getElementById(divname).innerHTML.length < 4){
+			var hero = most11;
+			var img1 = '<img class=hero height=40 width=40 src=./' + hero +'.png alt=' + hero +'></img>';
+			hero = most22;
+			var img2 = '<img class=hero height=40 width=40 src=./' + hero +'.png alt=' + hero +'></img>';
+			hero = most33;
+			var img3 = '<img class=hero height=40 width=40 src=./' + hero +'.png alt=' + hero +'></img>';
+			hero = most44;
+			var img4 = '<img class=hero height=40 width=40 src=./' + hero +'.png alt=' + hero +'></img>';
+			hero = most55;
+			var img5 = '<img class=hero height=40 width=40 src=./' + hero +'.png alt=' + hero +'></img>';
+			document.getElementById(divname).innerHTML = img1 +' ' + most1 + " " + img2 +" " + most2 + " " + img3 +" " + most3 + " "  + img4 +" " + most4 + " " +img5 +" " + most5;
+		}
+	})
+	}
+}
+
+
+
+function getTeamRank(){
+	getAverage();
+    getRank("BaronGOF-2402","test1");
+	getRank("Metodios-2865","test2");
+	getRank("Veybex-2428","test3");
+	getRank("Jadixa-2738","test4");
+	getRank("Alykas-2309","test5");
+	getRank("Eldeiwen-2512","test6"); 
+	setTimeout( getTeamRank, 5000);
+	}
+	
+function getAllHeroes(){
+	getHeroes("BaronGOF-2402","test11");
+	getHeroes("Metodios-2865","test22");
+	getHeroes("Veybex-2428","test33");
+	getHeroes("Jadixa-2738","test44");
+	getHeroes("Alykas-2309","test55");
+	getHeroes("Eldeiwen-2512","test66"); 
+		setTimeout( getAllHeroes, 5000);
+}
+
+function getAllSmurf(){
+	/*
+	getSmurf("Motodies-2516","pote1");
+	getHeroes("Motodies-2516","pote11");
+	getSmurf("TheDebaser-21783","pote2");
+	getHeroes("TheDebaser-21783","pote22");
+	getSmurf("Sacha-21922","pote3");
+	getHeroes("Sacha-21922","pote33");
+	getSmurf("Pajur-2820","pote4");
+	getHeroes("Pajur-2820","pote44");
+	getSmurf("Lenko-2499","pote5");
+	getHeroes("Lenko-2499","pote55");
+	getSmurf("Aku-22455","pote6");
+	getHeroes("Aku-22455","pote66");
+	setTimeout( getAllSmurf, 6000);
+	
+	
+}
+
+
+function getAverage(){
+	document.getElementById("test7").innerHTML = '<b class="bit" >Moyenne du rang : </b>' + Math.round(tot/jou);
+	document.getElementById("test8").innerHTML = "Cliquez sur l'icone de profil pour accéder au profil MasterOverwatch du joueur";
+	if (val == 6){}
+	else{
+		setTimeout(getAverage,100);
+	}
+}	
+
+getTeamRank();
+getAllHeroes();
+getAllSmurf();*/
+</script>
+
+
+   </body>
+   
+   
+</html>
+
+
