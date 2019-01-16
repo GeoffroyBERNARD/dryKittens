@@ -119,6 +119,12 @@ button:hover{
 	background-color: rgba(117,96,75,0.2);
 }
 
+.heroIcon{
+	width: 40px;
+	height: 40px;
+	border-radius: 50px;
+	background-color: rgba(0,0,0,0.5)
+}
 
  </style>
 
@@ -150,12 +156,16 @@ button:hover{
 					<img class="rank" v-bind:src="player.averageRankIcon" /> Rang Moyen : {{player.averageRank}}<br>
 					<span class="green">{{player.wins}}</span> - <span class="orange">{{player.draws}}</span> - <span class="red">{{player.loss}}</span> - <span v-bind:class="player.winrateColor">{{player.winrate}} %</span>
 				</div>
+				
+				<div>
+					<div v-for="hero in player.mostPlayedKey ">
+						<img class="heroIcon" v-bind:src="'./' + hero + '.png'" />
+					</div>
+					
+				</div>
 			</div>
 		</div>
 	</div>
-
-
-	
 
 
 
@@ -178,7 +188,10 @@ let Baron = {
 	"draws" : null,
 	"winrateColor" : null,
 	"endorsement" : null,
-	"display" : false
+	"display" : false,
+	"mostPlayedKey" : null,
+	"mostPlayedTime" : null,
+	"mostPlayed" : null
 }
 
 let Metodios = {
@@ -337,9 +350,9 @@ function pull( player, index ){
 		}
 		else{
 			if (index == 0){
-
 				if (data.eu.stats.competitive.overall_stats.comprank){
 
+				
 					//getting stats
 					player.maxRank =  data.eu.stats.competitive.overall_stats.comprank;
 					player.averageRank =  data.eu.stats.competitive.overall_stats.comprank;
@@ -365,12 +378,40 @@ function pull( player, index ){
 					else player.rankIcon="./gold.png";
 
 					player.averageRankIcon = player.rankIcon;
+					player.mostPlayed = data.eu.heroes.playtime.competitive;
+					player.mostPlayedMapped = Object.keys(player.mostPlayed).map(function(key) {
+  						return [key, player.mostPlayed[key]];
+					});
+
+					let most1=0; let most11="";
+					let most2=0; let most22="";
+					let most3=0; let most33="";
+					let most4=0; let most44="";
+					let most5=0; let most55="";
+					
+					for (let j=0; j<5; j++){
+						for (let i=0;i < player.mostPlayedMapped.length;i++){
+							let key = player.mostPlayedMapped[i][0];
+							let value = player.mostPlayedMapped[i][1];
+							if (value >= most1){most1=value;most11=key;}
+							else if (value >= most2){most2=value;most22=key;}
+							else if (value >= most3){most3=value;most33=key;}
+							else if (value >= most4){most4=value;most44=key;}
+							else if (value >= most5){most5=value;most55=key;}
+						}
+					}
+
+					player.mostPlayedTime = [most1, most2, most3, most4, most5 ];
+					player.mostPlayedKey = [most11, most22, most33, most44, most55 ];
 
 					player.display = true;
 					save();
 				}
+				else{
+					console.log("no data");
+				}
 			}
-			else {
+			else {	//if smurf
 
 				//calculating average rank
 				player.rankTotal += data.eu.stats.competitive.overall_stats.comprank;
@@ -399,8 +440,48 @@ function pull( player, index ){
 					else player.rankIcon="./gold.png";
 				}
 
+				let mostPlayed = data.eu.heroes.playtime.competitive;
+
+				let mapped = Object.keys(mostPlayed).map(function(key) {
+  					return [key, mostPlayed[key]];
+				});
+
+				let most1=0; let most11="";
+				let most2=0; let most22="";
+				let most3=0; let most33="";
+				let most4=0; let most44="";
+				let most5=0; let most55="";
+				//reunite both array
+				for (let i=0;i < player.mostPlayedMapped.length;i++){
+					for (let j=0;j < mapped.length;j++){
+						if (player.mostPlayedMapped[i][0] == mapped[j][0]){
+							player.mostPlayedMapped[i][1] += mapped[j][1];
+							mapped[j][0] = null;
+						}
+					}
+				}
+
+				//then merge them
+				for (let j=0; j<5; j++){
+					for (let i=0;i < player.mostPlayedMapped.length;i++){
+
+						let key = player.mostPlayedMapped[i][0];
+						let value = player.mostPlayedMapped[i][1];
+						if (value >= most1){most1=value;most11=key;}
+						else if (value >= most2){most2=value;most22=key;}
+						else if (value >= most3){most3=value;most33=key;}
+						else if (value >= most4){most4=value;most44=key;}
+						else if (value >= most5){most5=value;most55=key;}
+					}
+				}
+
+				player.mostPlayedTime = [most1, most2, most3, most4, most5 ];
+				player.mostPlayedKey = [most11, most22, most33, most44, most55 ];
+
 				save();
 			}
+
+			
 				
 
 			if (player.battletags.length > index + 1){
@@ -439,7 +520,7 @@ function getHeroes(btag,divname){
 		data = data.json(); 
 		return data;
 	}).then(function(data){
-		mostplayed = data.eu.heroes.playtime.competitive;
+		mostPlayed = data.eu.heroes.playtime.competitive;
 		var most1=0; var most11="";
 		var most2=0; var most22="";
 		var most3=0; var most33="";
@@ -447,15 +528,15 @@ function getHeroes(btag,divname){
 		var most5=0; var most55="";
 		
 		for (j=0;j<5;j++){
-		for (i=0;i<26;i++){
-			var key = Object.keys(mostplayed)[i];
-			value = mostplayed[key];
-			if (value >= most1){most1=value;most11=key;}
-			else if (value >= most2){most2=value;most22=key;}
-			else if (value >= most3){most3=value;most33=key;}
-			else if (value >= most4){most4=value;most44=key;}
-			else if (value >= most5){most5=value;most55=key;}
-		}
+			for (i=0;i<26;i++){
+				var key = Object.keys(mostPlayed)[i];
+				value = mostPlayed[key];
+				if (value >= most1){most1=value;most11=key;}
+				else if (value >= most2){most2=value;most22=key;}
+				else if (value >= most3){most3=value;most33=key;}
+				else if (value >= most4){most4=value;most44=key;}
+				else if (value >= most5){most5=value;most55=key;}
+			}
 		}
 		
 		if (most1 > 1 ){most1 ='<span class="bit">' + Math.trunc(most1) +'</span>h<span class="bit">' + Math.trunc(most1 % 1 *60) + "</span>";}
