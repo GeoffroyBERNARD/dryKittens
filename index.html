@@ -5,11 +5,67 @@
     <title>Dry kittens</title>
 <link rel="icon" type="image/x-icon" href="https://d3hmvhl7ru3t12.cloudfront.net/img/favicon-bb6200267bbdea6fdc9eb498a88722007dad6eb3b3c6437440025c66cb055fefdd1fbedf3886bd069fc3547c79fa8afee4795a278a644f6cfe10a7b1144f48bb.ico">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
-<script defer src="https://code.jquery.com/jquery-latest.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
-<script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+<meta charset="UTF-8">
+
 
 <style>
+
+.spinner {
+  margin: 100px auto;
+  width: 50px;
+  height: 40px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.center{
+	text-align:center;
+}
+
+.spinner > div {
+  background-color: #333;
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+  
+  -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  animation: sk-stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+
+@-webkit-keyframes sk-stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+  20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes sk-stretchdelay {
+  0%, 40%, 100% { 
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% { 
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
 
 .container{
 	background-color: rgba(255,255,255,0.5)
@@ -163,6 +219,20 @@ button:hover{
 					</div>
 					
 				</div>
+
+				<div v-if="player.fetching">
+						<div class="spinner">
+							<div class="rect1"></div>
+							<div class="rect2"></div>
+							<div class="rect3"></div>
+							<div class="rect4"></div>
+							<div class="rect5"></div>
+						</div>
+				</div>
+				<div class="center" v-if="!player.fetching && player.lastUpdatedTimer">
+						Mis à jour <br> {{player.lastUpdatedTimer}}
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -170,7 +240,12 @@ button:hover{
 
 
 	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script>
+	<script defer src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+	<script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/locale/fr.js"></script>
+	<script>
 
 
 let Baron = {
@@ -191,7 +266,10 @@ let Baron = {
 	"display" : false,
 	"mostPlayedKey" : null,
 	"mostPlayedTime" : null,
-	"mostPlayed" : null
+	"mostPlayed" : null,
+	"lastUpdated" : null,
+	"lastUpdatedTimer" : null,
+	"fetching" : false
 }
 
 let Metodios = {
@@ -209,7 +287,13 @@ let Metodios = {
 	"draws" : null,
 	"winrateColor" : null,
 	"endorsement" : null,
-	"display" : false
+	"display" : false,
+	"mostPlayedKey" : null,
+	"mostPlayedTime" : null,
+	"mostPlayed" : null,
+	"lastUpdated" : null,
+	"lastUpdatedTimer" : null,
+	"fetching" : false
 }
 
 let Alykas = {
@@ -227,7 +311,13 @@ let Alykas = {
 	"draws" : null,
 	"winrateColor" : null,
 	"endorsement" : null,
-	"display" : false
+	"display" : false,
+	"mostPlayedKey" : null,
+	"mostPlayedTime" : null,
+	"mostPlayed" : null,
+	"lastUpdated" : null,
+	"lastUpdatedTimer" : null,
+	"fetching" : false
 }
 
 let Veybex = {
@@ -245,7 +335,13 @@ let Veybex = {
 	"draws" : null,
 	"winrateColor" : null,
 	"endorsement" : null,
-	"display" : false
+	"display" : false,
+	"mostPlayedKey" : null,
+	"mostPlayedTime" : null,
+	"mostPlayed" : null,
+	"lastUpdated" : null,
+	"lastUpdatedTimer" : null,
+	"fetching" : false
 }
 
 let Aku = {
@@ -263,7 +359,13 @@ let Aku = {
 	"draws" : null,
 	"winrateColor" : null,
 	"endorsement" : null,
-	"display" : false
+	"display" : false,
+	"mostPlayedKey" : null,
+	"mostPlayedTime" : null,
+	"mostPlayed" : null,
+	"lastUpdated" : null,
+	"lastUpdatedTimer" : null,
+	"fetching" : false
 }
 
 let Greenfinite = {
@@ -281,7 +383,13 @@ let Greenfinite = {
 	"draws" : null,
 	"winrateColor" : null,
 	"endorsement" : null,
-	"display" : false
+	"display" : false,
+	"mostPlayedKey" : null,
+	"mostPlayedTime" : null,
+	"mostPlayed" : null,
+	"lastUpdated" : null,
+	"lastUpdatedTimer" : null,
+	"fetching" : false
 }
 
 let Jadixa = {
@@ -299,7 +407,13 @@ let Jadixa = {
 	"draws" : null,
 	"winrateColor" : null,
 	"endorsement" : null,
-	"display" : false
+	"display" : false,
+	"mostPlayedKey" : null,
+	"mostPlayedTime" : null,
+	"mostPlayed" : null,
+	"lastUpdated" : null,
+	"lastUpdatedTimer" : null,
+	"fetching" : false
 }
 
 let app = new Vue({
@@ -310,18 +424,27 @@ let app = new Vue({
   mounted() {
     if (localStorage.getItem('players')) {
 		try {
-        this.players = JSON.parse(localStorage.getItem('players'));
-      }
-	  catch(e) {
-        localStorage.removeItem('players');
-      }
+        	this.players = JSON.parse(localStorage.getItem('players'));
+			console.log(this.players.length);
+			for (let i = 0; i < this.players.length; i++){
+				if (this.players[i].lastUpdated)
+					this.players[i].lastUpdatedTimer = moment(this.players[i].lastUpdated).fromNow();	
+			}
+		}
+	  	catch(e) {
+			console.log("erreur ", e);
+        	localStorage.removeItem('players');
+      	}
     }
   },
 });
 
 function save(){
+	for (let i = 0; i < app.players.length; i++){
+		app.players[i].fetching = false;
+	}
 	localStorage.setItem('players', JSON.stringify(app.players));
-	console.log("saved");
+	console.log("saved", JSON.parse(localStorage.getItem("players")));
 }
 
 
@@ -329,6 +452,8 @@ function save(){
 
 //fetch player stats (index is smurf n°index n°0 for main)
 function pull( player, index ){
+
+	player.fetching = true;
 	
 	let url = 'https://owapi.net/api/v3/u/' + player.battletags[index] + '/blob';
 
@@ -352,7 +477,6 @@ function pull( player, index ){
 			if (index == 0){
 				if (data.eu.stats.competitive.overall_stats.comprank){
 
-				
 					//getting stats
 					player.maxRank =  data.eu.stats.competitive.overall_stats.comprank;
 					player.averageRank =  data.eu.stats.competitive.overall_stats.comprank;
@@ -405,6 +529,9 @@ function pull( player, index ){
 					player.mostPlayedKey = [most11, most22, most33, most44, most55 ];
 
 					player.display = true;
+					
+					player.lastUpdated = moment();
+					player.lastUpdatedTimer = moment().fromNow();
 					save();
 				}
 				else{
@@ -486,6 +613,9 @@ function pull( player, index ){
 
 			if (player.battletags.length > index + 1){
 				setTimeout(function(){pull(player, index + 1)},10000);
+			}
+			else{
+				player.fetching = false;
 			}
 
 		}
