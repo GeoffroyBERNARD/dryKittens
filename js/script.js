@@ -313,9 +313,10 @@ function pull(player, index) {
                 console.warn(player.battletags[index] + " - ratelimited - retrying in 10s");
                 return false;
             } else if (data.error == 500) {
-                console.warn(player.battletags[index] + " - private profil or error - please retry manually if profile is public");
-                player.fetching = false;
-                return false;
+                console.warn(player.battletags[index] + " - private profil or error - retrying in 60s in case it's an API due error");
+                setTimeout(function() {
+                    pull(player, index)
+                }, 60000);
             } else {
                 //if main (first battletag in list)
                 if (index == 0) {
