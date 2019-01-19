@@ -183,6 +183,8 @@ let Jadixa = {
 	"fetching" : false
 }
 
+
+
 let team = {
 	"maxRank" : null,
 	"maxRankPlayer" : null,
@@ -200,24 +202,38 @@ var app = new Vue({
     el: '#app',
     data: {
         players: [Baron, Metodios, Alykas, Veybex, Aku, Greenfinite, Jadixa],
-        team: team
+        team: team,
+        version: "1.0"
     },
     mounted() { 
         //getting localStorage data or deleting them if corrupted
-        //TODO : add version to know if data is outdated
-        if (localStorage.getItem('players')) {
-            try {
-                this.players = JSON.parse(localStorage.getItem('players'));
-                for (let i = 0; i < this.players.length; i++) {
-                    if (this.players[i].lastUpdated)
-                        this.players[i].lastUpdatedTimer = moment(this.players[i].lastUpdated).fromNow();
-                }
-                console.info("save was imported successfully");
-            } catch (e) {
-                console.error("save is corrupted and has been deleted", e);
-                localStorage.removeItem('players');
+
+        //first we check version so we can reset data if outdated
+        let isVersionUpToDate = false;
+        if (localStorage.getItem('version')){ 
+            if (localStorage.getItem('version') == this.version){
+                isVersionUpToDate = true;
             }
         }
+
+        if (isVersionUpToDate){
+            if (localStorage.getItem('players')) {
+                try {
+                    this.players = JSON.parse(localStorage.getItem('players'));
+                    for (let i = 0; i < this.players.length; i++) {
+                        if (this.players[i].lastUpdated)
+                            this.players[i].lastUpdatedTimer = moment(this.players[i].lastUpdated).fromNow();
+                    }
+                    console.info("save was imported successfully");
+                } catch (e) {
+                    console.error("save is corrupted and has been deleted", e);
+                    localStorage.removeItem('players');
+                }
+            }
+        }
+        else{
+            console.warn("App version was outdated - Inconsistent data was removed ")
+        } 
     },
 });
 
@@ -232,6 +248,7 @@ function save() {
     }
     
     localStorage.setItem('players', JSON.stringify(app.players));
+    localStorage.setItem('version', JSON.stringify(app.version));
     
     console.info("Success - data saved");
     getTeamStats();
