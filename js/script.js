@@ -248,7 +248,7 @@ function save() {
     }
     
     localStorage.setItem('players', JSON.stringify(app.players));
-    localStorage.setItem('version', JSON.stringify(app.version));
+    localStorage.setItem('version', app.version);
     
     console.info("Success - data saved");
     getTeamStats();
@@ -428,7 +428,7 @@ function pull(player, index) {
 
                         // Detecting how much account have been loaded to show the user
                         if (player.battletags.length == player.rank.length && player.battletags.length == 1) {
-                            player.loaded = "Chargement terminé (" + player.battletags.length + "compte)"
+                            player.loaded = "Chargement terminé (" + player.battletags.length + " compte)"
                         } else if (player.battletags.length == player.rank.length) {
                             player.loaded = "Chargement terminé (" + player.battletags.length + "comptes)"
                         } else if (player.rank.length == 1) {
@@ -560,7 +560,7 @@ function pull(player, index) {
 
                         //checking if all characters are loaded
                         if (player.battletags.length == player.rank.length && player.battletags.length == 1) {
-                            player.loaded = "Chargement terminé (" + player.battletags.length + "compte)"
+                            player.loaded = "Chargement terminé (" + player.battletags.length + " compte)"
                         } else if (player.battletags.length == player.rank.length) {
                             player.loaded = "Chargement terminé (" + player.battletags.length + "comptes)"
                         } else if (player.rank.length == 1) {
