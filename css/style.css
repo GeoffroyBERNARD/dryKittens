@@ -7,7 +7,7 @@ body{
     margin: 0;
 }
 
-body,button{
+body,button, a{
 	cursor: url(https://cdn.discordapp.com/attachments/303406782104207362/315839175406649345/Overwatch.cur), auto;
 }
 

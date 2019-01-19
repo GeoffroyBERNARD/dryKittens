@@ -45,3 +45,25 @@
         border-top-left-radius: 50px;
     }}
     
+
+    .appli{
+        background-color: rgba(0,0,0,0.5);
+        width: 100%;
+        text-align:center;
+    }
+
+    .appli a{
+        width: 100%;
+        text-decoration:none;
+        font-size: 2em;
+    }
+
+
+    a:hover{
+        color: #f99e1a;
+        text-shadow: 10px 10px 30px white;
+    }
+    
+    a:active{
+        text-shadow: 10px 10px 30px #f99e1a;
+    }
