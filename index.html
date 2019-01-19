@@ -10,8 +10,12 @@
 
 <style>
 
+body,button{
+	cursor: url(https://cdn.discordapp.com/attachments/303406782104207362/315839175406649345/Overwatch.cur), auto;
+}
+
 .spinner {
-  margin: 100px auto;
+  margin: auto;
   width: 50px;
   height: 40px;
   text-align: center;
@@ -82,6 +86,24 @@
     font-weight: bold;
 }
 
+@font-face {
+   font-family: "ow";
+   src: url("./big_noodle_titling.ttf");
+}
+
+@font-face {
+    font-family: "ow";
+    src: url("./big_noodle_titling.ttf");
+    font-weight: italic;
+}
+
+.ow{
+	font-family:ow;
+	text-shadow: 0px 0px 3px #cecece;
+	color: white;
+	font-size: 63px;
+}
+
 
 .rank{
 	width: 50px;
@@ -121,22 +143,21 @@ div .match{
 	
 }
 
+*{
+	font-family:ow;
+}
+
 body{
     background-image:url("./bg.jpg");
     background-size: cover;
 }
-
-.bit{   font-family: "bit"!important;
-    
-}
-
-span{   font-family: "bit"!important;}
 
 .red{color:red;}
 .orange{color:#a83c12;}
 .green{color:green;}
 
 .flex-container{
+	flex-wrap: wrap;
 	display: flex;
 	flex-direction: row;
 	width: 100%;
@@ -145,22 +166,62 @@ span{   font-family: "bit"!important;}
 	padding: 1em;
 }
 
-button{
-	font-family: "bit"!important;
-	background-color: #75604b;
-	box-shadow: -1px 2px 10px 3px rgba(0, 0, 0, 0.3) inset;
-	color: black;
+.flex-container-1{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 1em;
+
+
+-moz-box-shadow: 11px 11px 10px 0px #43484c;
+-webkit-box-shadow: 11px 11px 10px 0px #43484c;
+-o-box-shadow: 11px 11px 10px 0px #43484c;
+box-shadow: 11px 11px 10px 0px #43484c;
+filter:progid:DXImageTransform.Microsoft.Shadow(color=#43484c, Direction=135, Strength=10);
+}
+
+.flex-container-2{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: flex-start;
+	flex-wrap: wrap;
 	padding: 1em;
-	border-radius: 1em;
-	border-style: solid;
-	border-color: rgba(0,0,0,0);
-	cursor: pointer;
+}
+
+
+.master{color: #fcc250;}
+.gm{color:#fff026;}
+.diamant{color:#448cff;}
+.plat{color:#dce2ed;}
+.gold{color:#e5fc50;}
+
+button{
+	background-color: rgba(0,0,0,0);
+	border-style: none;
+		font-family:ow;
+	text-shadow: 0px 0px 3px #cecece;
+	color: white;
+	font-size: 63px;
+	font-style:italic;
 }
 
 button:hover{
-	color :white;
-	transition: 1s;
+	color: #f99e1a;
+	text-shadow: 10px 10px 30px white;
 }
+
+button:active{
+	text-shadow: 10px 10px 30px #f99e1a;
+}
+
+.flex-container{
+	background-color: rgba(0,0,0,0.5);
+	border-bottom-style:solid;
+	border-bottom-width: 1em;
+	border-bottom-color: #f99e1a;
+}
+
 
 #app{
 	box-shadow: -1px 2px 10px 3px rgba(0, 0, 0, 0.3) inset;
@@ -181,59 +242,182 @@ button:hover{
 	background-color: rgba(0,0,0,0.5)
 }
 
+.heroIcon:hover{
+	background-color: rgba(255,255,255,0.5);
+	color: #f99e1a;
+	box-shadow: 2px 2px 20px white;
+}
+
+.heroIcon:active{
+	background-color: rgba(249,158,26,0.5);
+	box-shadow: 2px 2px 20px #f99e1a;
+}
+.top{
+	background-color: #43484c;
+	width: 100%;
+	text-align:center;
+}
+
+.main{
+	display: grid;
+	grid-template-columns: 1fr 50px;
+}
+
+.right{
+	display:flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	background-color:#405275;
+}
+
+.pseudo{
+	border-top-style:solid;
+	border-top-color:#f99e1a;
+	border-width: 1em;
+	background-color: rgba(0,0,0,0.5);
+	box-shadow: -1px 2px 10px 3px rgba(0, 0, 0, 0.3) inset;
+	padding-top: 1em;
+	width: 100%;
+	text-align:center;
+}
+
+.info{
+	text-align:center;
+}
+
+h1{
+
+	font-family:ow;
+	text-shadow: 0px 0px 3px #cecece;
+	color: white;
+	font-size: 63px;
+	width: 100%;
+	background-color:rgba(0,0,0,0.5);
+
+
+}
+
+.winrate{
+	font-size: 1.5em;	
+}
+
+.left{
+	border-top-style:solid;
+	border-color: #f99e1a;
+	border-width: 1em;
+	text-align:center;
+	background-color: rgba(255,255,255,0.3);
+	box-shadow: -1px 2px 10px 3px rgba(0, 0, 0, 0.3) inset;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100%;
+}
+
+.center{
+	background-color:#43484c;
+	font-size: 0.8em;
+	color: rgba(150,150,150)
+}
+
+.img_size{
+	padding: 1em;
+	width: 40%;
+	height: auto;
+	flex-grow: 1;
+}
+
+.centered{
+	text-align: center;
+}
+
+.container{
+	margin-top: 1em;
+	padding: 0;
+		border-top-style:solid;
+	border-color: #f99e1a;
+	border-width: 1em;
+	text-align:center;
+	background-color: rgba(255,255,255,0.3);
+	box-shadow: -1px 2px 10px 3px rgba(0, 0, 0, 0.3) inset;
+}
+
  </style>
 
    </head>
    
    <body>
 
-	<div id="app" class="container">
-		<div class="flex-container">
+   			<div class="flex-container">
 			<button onclick="showAll()">Voir Tout</button>
 			<button onclick="pull(app.players[0], 0)">Baron</button>
 			<button onclick="pull(app.players[1], 0)">Meto</button>
 			<button onclick="pull(app.players[2], 0)">Sacha</button>
 			<button onclick="pull(app.players[3], 0)">Veybex</button>
 			<button onclick="pull(app.players[4], 0)">Aku</button>
-			<button onclick="pull(app.players[5], 0)">Greenfinite</button>
+			<button onclick="pull(app.players[5], 0)">Green</button>
 			<button onclick="pull(app.players[6], 0)">Jadixa</button>
 		</div>
-		<div v-for="player in players">
-			<div class="flex-container char" v-if="player.display">
-				<img v-bind:src="player.playerIcon" />
-				<div>
-					{{player.name}}<br>
-					Niveau : {{player.level}}<br>
-					Endorsement : {{player.endorsement}}
-				</div>
-				<div>
-					<img class="rank" v-bind:src="player.rankIcon" /> Rang Max : {{player.maxRank}}<br>
-					<img class="rank" v-bind:src="player.averageRankIcon" /> Rang Moyen : {{player.averageRank}}<br>
-					<span class="green">{{player.wins}}</span> - <span class="orange">{{player.draws}}</span> - <span class="red">{{player.loss}}</span> - <span v-bind:class="player.winrateColor">{{player.winrate}} %</span>
-				</div>
-				
-				<div>
-					<div v-for="hero in player.mostPlayedKey ">
-						<img class="heroIcon" v-bind:src="'./' + hero + '.png'" />
+	<div id="app">
+
+		<div class="container" v-if="team.maxRank">
+			<h2>Statistique des joueurs affichés</h2>
+			Rang maximum moyen : <img class="rank" v-bind:src="team.averageMaxRankIcon" /> {{team.averageMaxRank}}<br>
+			Plus haut rang maximum : <img class="rank" v-bind:src="team.maxRankIcon" /> {{team.maxRank}} ({{team.maxRankPlayer}})<br>
+			Plus bas rang maximum : <img class="rank" v-bind:src="team.minRankIcon" /> {{team.minRank}} ({{team.minRankPlayer}})
+		</div>
+
+		<div class="flex-container-2">		
+			<div v-for="player in players">
+				<div class="flex-container-1" v-if="player.display">
+					<div class="pseudo">
+						<h2><em class="ow" >{{player.name}}</em></h2>
 					</div>
-					
-				</div>
-
-				<div v-if="player.fetching">
-						<div class="spinner">
-							<div class="rect1"></div>
-							<div class="rect2"></div>
-							<div class="rect3"></div>
-							<div class="rect4"></div>
-							<div class="rect5"></div>
+					<div class="top bit" v-bind:class="player.rankName">
+						<img class="rank" v-bind:src="player.rankIcon" /> {{player.maxRank}}
+					</div>
+					<div class="main">
+						<div class="left">
+							<div class="img_size" style="width: 100%!important;" v-if="player.fetching">
+								<div width="100%" class="spinner centered">
+									<div class="rect1"></div>
+									<div class="rect2"></div>
+									<div class="rect3"></div>
+									<div class="rect4"></div>
+									<div class="rect5"></div>
+								</div>
+							</div>
+							<div  v-if="!player.fetching">
+								<img class="img_size" v-bind:src="'https://robohash.org/' + player.battletags['0'] + '.png?set=set4'" />
+							</div>
+							<div class="info">
+								<img class="rank" v-bind:src="player.averageRankIcon" /> Rang Moyen : {{player.averageRank}}<br>
+								<span class="green">{{player.wins}}</span> - <span class="orange">{{player.draws}}</span> - <span class="red">{{player.loss}}</span>
+								<br><span class="winrate" v-bind:class="player.winrateColor">{{player.winrate}}%</span>
+							</div>
+							<div>
+								<div class="center" v-if="!player.fetching && player.lastUpdatedTimer">
+									Mis à jour {{player.lastUpdatedTimer}}
+								</div>
+							</div>
 						</div>
-				</div>
-				<div class="center" v-if="!player.fetching && player.lastUpdatedTimer">
-						Mis à jour <br> {{player.lastUpdatedTimer}}
-				</div>
 
+						<div class="right">
+							<div v-for="hero in player.mostPlayedKey ">
+								<img class="heroIcon" v-bind:src="'./' + hero + '.png'" />
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+		<div class="container">
+			<h1><em>DryKittens</em></h1>
+		Bienvenue sur le site des DryKittens<br>
+		choisissez un joueur pour voir ses statistiques (additionnées à ses smurfs)<br>
+		soyez pas trop gourmand ou impatient, le serveur fournissant les statistiques est assez lent et peut vous bloquer en cas de spam<br>
+		Discord pour nous contacter : <em><b>BaronGOℲ#1652</b></em>
 	</div>
 
 
@@ -250,6 +434,7 @@ button:hover{
 let Baron = {
 	"name" : "BaronGOF",
 	"battletags" : ["BaronGOF-2402", "TheDebaser-21783"],
+	"rank": [],
 	"level" : null,
 	"rankIcon" : null,
 	"averageRankIcon" : null,
@@ -274,6 +459,7 @@ let Baron = {
 let Metodios = {
 	"name" : "Metodios",
 	"battletags" : ["Metodios-2865", "Motodies-2516"],
+	"rank": [],
 	"level" : 0,
 	"rankIcon" : null,
 	"averageRankIcon" : null,
@@ -298,6 +484,7 @@ let Metodios = {
 let Alykas = {
 	"name" : "Alykas",
 	"battletags" : ["Alykas-2309", "Sacha-21922", "Sacha-21159"],
+	"rank": [],
 	"level" : 0,
 	"rankIcon" : null,
 	"averageRankIcon" : null,
@@ -322,6 +509,7 @@ let Alykas = {
 let Veybex = {
 	"name" : "Veybex",
 	"battletags" : ["Veybex-2428", "Sparks-21157"],
+	"rank": [],
 	"level" : 0,
 	"rankIcon" : null,
 	"averageRankIcon" : null,
@@ -346,6 +534,7 @@ let Veybex = {
 let Aku = {
 	"name" : "Aku",
 	"battletags" : ["Aku-22455"],
+	"rank": [],
 	"level" : 0,
 	"rankIcon" : null,
 	"averageRankIcon" : null,
@@ -378,6 +567,7 @@ let Greenfinite = {
 	"playerIcon" : null,
 	"wins" : null,
 	"winrate" : null,
+	"rank": [],
 	"loss" : null,
 	"draws" : null,
 	"winrateColor" : null,
@@ -395,6 +585,7 @@ let Jadixa = {
 	"name" : "Jadixa",
 	"battletags" : ["Jadixa-2738"],
 	"level" : 0,
+	"rank": [],
 	"rankIcon" : null,
 	"averageRankIcon" : null,
 	"maxRank" : null,
@@ -415,20 +606,32 @@ let Jadixa = {
 	"fetching" : false
 }
 
+let team = {
+	"maxRank" : null,
+	"maxRankPlayer" : null,
+	"minRank" : null,
+	"minRankPlayer" : null,
+	"averageMaxRank" : null,
+	"minRankIcon" : null,
+	"maxRankIcon" : null,
+	"averageMaxRankIcon": null
+}
+
 let app = new Vue({
   el: '#app',
   data: {
-    players: [Baron, Metodios, Alykas, Veybex, Aku, Greenfinite, Jadixa]
+    players: [Baron, Metodios, Alykas, Veybex, Aku, Greenfinite, Jadixa],
+    team : team
   },
   mounted() {
     if (localStorage.getItem('players')) {
 		try {
         	this.players = JSON.parse(localStorage.getItem('players'));
-			console.log(this.players.length);
 			for (let i = 0; i < this.players.length; i++){
 				if (this.players[i].lastUpdated)
 					this.players[i].lastUpdatedTimer = moment(this.players[i].lastUpdated).fromNow();	
 			}
+			getTeamStats();
 		}
 	  	catch(e) {
 			console.log("erreur ", e);
@@ -444,8 +647,64 @@ function save(){
 	}
 	localStorage.setItem('players', JSON.stringify(app.players));
 	console.log("saved", JSON.parse(localStorage.getItem("players")));
+
+	getTeamStats();
 }
 
+function getTeamStats(){
+	let maxRank = 0;
+	let maxRankTotal = 0;
+	let maxRankIndex = 0;
+	let minRank = 5000;
+	let minRankPlayer;
+	let maxRankPlayer;
+	for (let i = 0; i < app.players.length; i++){
+
+		//calcultating maxRank
+		if (app.players[i].maxRank){
+				maxRankIndex ++;
+				maxRankTotal += app.players[i].maxRank;
+				if (app.players[i].maxRank > maxRank){
+					maxRank = app.players[i].maxRank;
+					maxRankPlayer = app.players[i].name;
+				}
+				if (app.players[i].maxRank < minRank){
+					minRank = app.players[i].maxRank;
+					minRankPlayer = app.players[i].name;
+				}
+		}
+	}
+	let maxRankAverage = Math.round(maxRankTotal / maxRankIndex);
+
+	app.team.maxRank = maxRank;
+	app.team.maxRankPlayer = maxRankPlayer;
+	app.team.minRank = minRank;
+	app.team.minRankPlayer = minRankPlayer;
+	app.team.averageMaxRank = maxRankAverage;
+
+	if (app.team.maxRank>=4000) team.maxRankIcon="./gm.png";
+	else if (app.team.maxRank>=3500) team.maxRankIcon="./master.png";
+	else if (app.team.maxRank>=3000) team.maxRankIcon="./diamant.png";
+	else if (app.team.maxRank>=2500) team.maxRankIcon="./plat.png";
+	else app.team.maxRankIcon="./gold.png";
+
+	if (app.team.minRank>=4000) team.minRankIcon="./gm.png";
+	else if (app.team.minRank>=3500) team.minRankIcon="./master.png";
+	else if (app.team.minRank>=3000) team.minRankIcon="./diamant.png";
+	else if (app.team.minRank>=2500) team.minRankIcon="./plat.png";
+	else app.team.minRankIcon="./gold.png";
+
+	if (app.team.averageMaxRank>=4000) team.averageMaxRankIcon="./gm.png";
+	else if (app.team.averageMaxRank>=3500) team.averageMaxRankIcon="./master.png";
+	else if (app.team.averageMaxRank>=3000) team.averageMaxRankIcon="./diamant.png";
+	else if (app.team.averageMaxRank>=2500) team.averageMaxRankIcon="./plat.png";
+	else app.team.averageMaxRankIcon="./gold.png";
+
+
+
+
+
+}
 
 
 
@@ -477,6 +736,7 @@ function pull( player, index ){
 				if (data.eu.stats.competitive.overall_stats.comprank){
 
 					//getting stats
+					player.rank = [data.eu.stats.competitive.overall_stats.comprank];
 					player.maxRank =  data.eu.stats.competitive.overall_stats.comprank;
 					player.averageRank =  data.eu.stats.competitive.overall_stats.comprank;
 					player.wins = data.eu.stats.competitive.overall_stats.wins;
@@ -499,6 +759,12 @@ function pull( player, index ){
 					else if (player.maxRank>=3000) player.rankIcon="./diamant.png";
 					else if (player.maxRank>=2500) player.rankIcon="./plat.png";
 					else player.rankIcon="./gold.png";
+
+					if (player.maxRank>=4000) player.rankName="gm";
+					else if (player.maxRank>=3500) player.rankName="master";
+					else if (player.maxRank>=3000) player.rankName="diamant";
+					else if (player.maxRank>=2500) player.rankName="plat";
+					else player.rankIcon="gold";
 
 					player.averageRankIcon = player.rankIcon;
 					player.mostPlayed = data.eu.heroes.playtime.competitive;
@@ -539,9 +805,7 @@ function pull( player, index ){
 			}
 			else {	//if smurf
 
-				//calculating average rank
-				player.rankTotal += data.eu.stats.competitive.overall_stats.comprank;
-				player.averageRank = player.rankTotal / (index + 1)
+				if (data.eu.stats.competitive.overall_stats.comprank){
 
 				if (player.averageRank>=4000) player.averageRankIcon="./gm.png";
 				else if (player.averageRank>=3500) player.averageRankIcon="./master.png";
@@ -549,12 +813,21 @@ function pull( player, index ){
 				else if (player.averageRank>=2500) player.averageRankIcon="./plat.png";
 				else player.rankIcon="./gold.png";
 
-				//calculating total
+				if (player.rank.length < index + 1) player.rank.push(data.eu.stats.competitive.overall_stats.comprank)
+
+
 				player.wins += data.eu.stats.competitive.overall_stats.wins;
 				player.loss += data.eu.stats.competitive.overall_stats.losses;
 				player.games += data.eu.stats.competitive.overall_stats.games;
 				player.draws += data.eu.stats.competitive.overall_stats.ties;
 				player.winrate = (Math.round(((player.games * 100) / player.loss)* 10) / 10) / 4;
+
+				let avgRank = 0;
+				for (let i = 0; i < player.rank.length; i++){
+					avgRank += player.rank[i]
+				}
+
+				player.averageRank = Math.round(avgRank / player.rank.length);
 
 				//if new best rank
 				if (data.eu.stats.competitive.overall_stats.comprank > player.maxRank){
@@ -565,6 +838,18 @@ function pull( player, index ){
 					else if (player.maxRank>=2500) player.rankIcon="./plat.png";
 					else player.rankIcon="./gold.png";
 				}
+
+				if (player.maxRank>=4000) player.averageRankIcon="./gm.png";
+					else if (player.averageRank>=3500) player.averageRankIconn="./master.png";
+					else if (player.averageRank>=3000) player.averageRankIcon="./diamant.png";
+					else if (player.averageRank>=2500) player.averageRankIcon="./plat.png";
+					else player.averageRankIcon="./gold.png";
+
+				if (player.maxRank>=4000) player.rankName="gm";
+					else if (player.maxRank>=3500) player.rankName="master";
+					else if (player.maxRank>=3000) player.rankName="diamant";
+					else if (player.maxRank>=2500) player.rankName="plat";
+					else player.rankIcon="gold";
 
 				let mostPlayed = data.eu.heroes.playtime.competitive;
 
@@ -605,6 +890,12 @@ function pull( player, index ){
 				player.mostPlayedKey = [most11, most22, most33, most44, most55 ];
 
 				save();
+			}else{
+				console.log("no data");
+				player.fetching = false;
+
+			}
+
 			}
 
 			
