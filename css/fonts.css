@@ -1,0 +1,17 @@
+@font-face {
+    font-family: "ow";
+    src: url("../assets/fonts/big_noodle_titling.ttf");
+ }
+ 
+ @font-face {
+     font-family: "ow";
+     src: url("../assets/fonts/big_noodle_titling.ttf");
+     font-weight: italic;
+ }
+ 
+ .ow{
+     font-family:ow;
+     text-shadow: 0px 0px 3px #cecece;
+     color: white;
+     font-size: 63px;
+ }
