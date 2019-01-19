@@ -5,11 +5,14 @@
     height: 40px;
     text-align: center;
     font-size: 10px;
+    background-color: rgba(255,255,255,0.9);
+    padding: 1em;
+    border-radius: 50px;
   }
   
   
   .spinner > div {
-    background-color: #333;
+    background-color: #405275;
     height: 100%;
     width: 6px;
     display: inline-block;
@@ -52,3 +55,16 @@
       -webkit-transform: scaleY(1.0);
     }
   }
+
+  .img-spinner-container{
+      position: relative;
+  }
+
+  .spinner-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  

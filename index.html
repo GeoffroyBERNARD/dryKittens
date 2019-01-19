@@ -40,17 +40,17 @@
 					</div>
 					<div class="main">
 						<div class="left">
-							<div class="img_size" style="width: 100%!important;" v-if="player.fetching">
-								<div width="100%" class="spinner centered">
-									<div class="rect1"></div>
-									<div class="rect2"></div>
-									<div class="rect3"></div>
-									<div class="rect4"></div>
-									<div class="rect5"></div>
-								</div>
-							</div>
-							<div  v-if="!player.fetching">
+							<div class="img-spinner-container">
 								<img class="img_size" v-bind:src="'./assets/kittens/' + player.battletags['0'] + '.png'" />
+								<div class="spinner-container" v-if="player.fetching">
+									<div width="100%" class="spinner centered">
+										<div class="rect1"></div>
+										<div class="rect2"></div>
+										<div class="rect3"></div>
+										<div class="rect4"></div>
+										<div class="rect5"></div>
+									</div>
+								</div>
 							</div>
 							<div class="info">
 								<img class="rank" v-bind:src="player.averageRankIcon" /> Rang Moyen : {{player.averageRank}}<br>
@@ -58,7 +58,10 @@
 								<br><span class="winrate" v-bind:class="player.winrateColor">{{player.winrate}}%</span>
 							</div>
 							<div>
-								<div class="center" v-if="!player.fetching && player.lastUpdatedTimer">
+								<div class="center" v-if="player.loaded">
+									{{player.loaded}}
+								</div>
+								<div class="center" v-if="player.lastUpdatedTimer">
 									Mis à jour {{player.lastUpdatedTimer}}
 								</div>
 							</div>
@@ -81,11 +84,10 @@
 			Discord pour nous contacter : <em><b>BaronGOℲ#1652</b></em>
 		</div>
 
-		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/locale/fr.js"></script>
-		<script src="./js/data.js"></script>
-		<script src="./js/script.js"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script defer src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+		<script defer src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/locale/fr.js"></script>
+		<script defer src="./js/script.js"></script>
    </body>
 </html>
 
