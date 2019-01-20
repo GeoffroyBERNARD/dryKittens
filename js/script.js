@@ -6,16 +6,21 @@ let Baron = {
     "battletags" : ["BaronGOF-2402", "TheDebaser-21783"],
     "loaded" : null,
 	"rank": [],
-	"level" : null,
+    "level" : null,
+    "playerIcon" : null,
 	"rankIcon" : null,
 	"averageRankIcon" : null,
 	"maxRank" : null,
 	"averageRank" : null,
-	"playerIcon" : "https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x02500000000017A8.png",
-	"wins" : null,
+	"wins" : [],
 	"winrate" : null,
-	"loss" : null,
-	"draws" : null,
+	"loss" : [],
+	"draws" : [],
+    "games" : [],
+    "winsTotal" : null,
+    "lossTotal" : null,
+    "drawsTotal" : null,
+    "gamesTotal" : null,
 	"winrateColor" : null,
 	"endorsement" : null,
 	"display" : false,
@@ -38,10 +43,15 @@ let Metodios = {
 	"maxRank" : null,
 	"averageRank" : null,
 	"playerIcon" : null,
-	"wins" : null,
+	"wins" : [],
 	"winrate" : null,
-	"loss" : null,
-	"draws" : null,
+	"loss" : [],
+    "games" : [],
+	"draws" : [],
+    "winsTotal" : null,
+    "lossTotal" : null,
+    "drawsTotal" : null,
+    "gamesTotal" : null,
 	"winrateColor" : null,
 	"endorsement" : null,
 	"display" : false,
@@ -64,10 +74,15 @@ let Alykas = {
 	"maxRank" : null,
 	"averageRank" : null,
 	"playerIcon" : null,
-	"wins" : null,
+	"wins" : [],
 	"winrate" : null,
-	"loss" : null,
-	"draws" : null,
+	"loss" : [],
+    "games" : [],
+	"draws" : [],
+    "winsTotal" : null,
+    "lossTotal" : null,
+    "drawsTotal" : null,
+    "gamesTotal" : null,
 	"winrateColor" : null,
 	"endorsement" : null,
 	"display" : false,
@@ -90,10 +105,15 @@ let Veybex = {
 	"maxRank" : null,
 	"averageRank" : null,
 	"playerIcon" : null,
-	"wins" : null,
+	"wins" : [],
 	"winrate" : null,
-	"loss" : null,
-	"draws" : null,
+	"loss" : [],
+    "games" : [],
+	"draws" : [],
+    "winsTotal" : null,
+    "lossTotal" : null,
+    "drawsTotal" : null,
+    "gamesTotal" : null,
 	"winrateColor" : null,
 	"endorsement" : null,
 	"display" : false,
@@ -116,10 +136,15 @@ let Aku = {
 	"maxRank" : null,
 	"averageRank" : null,
 	"playerIcon" : null,
-	"wins" : null,
+	"wins" : [],
 	"winrate" : null,
-	"loss" : null,
-	"draws" : null,
+	"loss" : [],
+    "games" : [],
+    "draws" : [],
+    "winsTotal" : null,
+    "lossTotal" : null,
+    "drawsTotal" : null,
+    "gamesTotal" : null,
 	"winrateColor" : null,
 	"endorsement" : null,
 	"display" : false,
@@ -141,11 +166,16 @@ let Greenfinite = {
 	"maxRank" : null,
 	"averageRank" : null,
 	"playerIcon" : null,
-	"wins" : null,
-	"winrate" : null,
 	"rank": [],
-	"loss" : null,
-	"draws" : null,
+	"wins" : [],
+	"winrate" : null,
+	"loss" : [],
+    "games" : [],
+	"draws" : [],
+    "winsTotal" : null,
+    "lossTotal" : null,
+    "drawsTotal" : null,
+    "gamesTotal" : null,
 	"winrateColor" : null,
 	"endorsement" : null,
 	"display" : false,
@@ -168,10 +198,15 @@ let Jadixa = {
 	"maxRank" : null,
 	"averageRank" : null,
 	"playerIcon" : null,
-	"wins" : null,
+	"wins" : [],
 	"winrate" : null,
-	"loss" : null,
-	"draws" : null,
+	"loss" : [],
+    "draws" : [],
+    "games" : [],
+    "winsTotal" : null,
+    "lossTotal" : null,
+    "drawsTotal" : null,
+    "gamesTotal" : null,
 	"winrateColor" : null,
 	"endorsement" : null,
 	"display" : false,
@@ -203,7 +238,7 @@ var app = new Vue({
     data: {
         players: [Baron, Metodios, Alykas, Veybex, Aku, Greenfinite, Jadixa],
         team: team,
-        version: "1.0"
+        version: "1.1"
     },
     mounted() { 
         //getting localStorage data or deleting them if corrupted
@@ -344,11 +379,11 @@ function pull(player, index) {
                         player.rank = [data.eu.stats.competitive.overall_stats.comprank];
                         player.maxRank = data.eu.stats.competitive.overall_stats.comprank;
                         player.averageRank = data.eu.stats.competitive.overall_stats.comprank;
-                        player.wins = data.eu.stats.competitive.overall_stats.wins;
+                        player.wins = [data.eu.stats.competitive.overall_stats.wins];
                         player.playerIcon = data.eu.stats.competitive.overall_stats.avatar;
-                        player.loss = data.eu.stats.competitive.overall_stats.losses;
-                        player.games = data.eu.stats.competitive.overall_stats.games;
-                        player.draws = data.eu.stats.competitive.overall_stats.ties;
+                        player.loss = [data.eu.stats.competitive.overall_stats.losses];
+                        player.games = [data.eu.stats.competitive.overall_stats.games];
+                        player.draws = [data.eu.stats.competitive.overall_stats.ties];
                         player.winrate = data.eu.stats.competitive.overall_stats.win_rate;
                         player.endorsement = data.eu.stats.competitive.overall_stats.endorsement_level;
                         player.rankTotal = data.eu.stats.competitive.overall_stats.comprank;
@@ -467,19 +502,48 @@ function pull(player, index) {
                         //Adding the smurf rank to the array (if not already done)
                         if (player.rank.length < index + 1) player.rank.push(data.eu.stats.competitive.overall_stats.comprank)
 
-                        //getting new winrate stats
-                        player.wins += data.eu.stats.competitive.overall_stats.wins;
-                        player.loss += data.eu.stats.competitive.overall_stats.losses;
-                        player.games += data.eu.stats.competitive.overall_stats.games;
-                        player.draws += data.eu.stats.competitive.overall_stats.ties;
-                        player.winrate = (Math.round(((player.games * 100) / player.loss) * 10) / 10) / 4;
+                        if (player.wins.length < index + 1) player.wins.push(data.eu.stats.competitive.overall_stats.wins)
+                        if (player.loss.length < index + 1) player.loss.push(data.eu.stats.competitive.overall_stats.losses)
+                        if (player.draws.length < index + 1) player.draws.push(data.eu.stats.competitive.overall_stats.ties)
+                        if (player.games.length < index + 1) player.games.push(data.eu.stats.competitive.overall_stats.games)
 
                         //calcultating new average rank
                         let avgRank = 0;
+                        let winsTotal = 0;
+                        let lossTotal = 0;
+                        let drawsTotal = 0;
+                        let gamesTotal = 0;
                         for (let i = 0; i < player.rank.length; i++) {
                             avgRank += player.rank[i]
                         }
+
+                        for (let i = 0; i < player.wins.length; i++) {
+                            winsTotal += player.wins[i];
+                        }
+
+                        for (let i = 0; i < player.loss.length; i++) {
+                            lossTotal += player.loss[i];
+                        }
+
+                        for (let i = 0; i < player.draws.length; i++) {
+                            drawsTotal += player.draws[i];
+                        }
+
+                        for (let i = 0; i < player.games.length; i++) {
+                            gamesTotal += player.games[i];
+                        }
+
+                        console.log(avgRank, player.rank.length)
+
+                        player.winrate = (Math.round(((gamesTotal * 100) / lossTotal) * 10) / 10) / 4;
                         player.averageRank = Math.round(avgRank / player.rank.length);
+
+                        player.winsTotal = winsTotal;
+                        player.drawsTotal = drawsTotal;
+                        player.gamesTotal = gamesTotal;
+                        player.lossTotal = lossTotal;
+
+
 
                         //if new best rank, setting the icon
                         if (data.eu.stats.competitive.overall_stats.comprank > player.maxRank) {
