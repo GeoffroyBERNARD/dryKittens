@@ -43,6 +43,7 @@
 					</div>
 					<div class="top bit" v-bind:class="player.rankName">
 						<img class="rank" v-bind:src="player.rankIcon" /> {{player.maxRank}}
+						<img v-bind:id="player.name" v-if="!player.fetching" v-on:click="refresh($event)" class="refresh"  src="./assets/refresh.png" />
 					</div>
 					<div class="main">
 						<div class="left">

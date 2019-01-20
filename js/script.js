@@ -2,6 +2,7 @@
 // can be optimized...
 
 let Baron = {
+    "index" : "0",
 	"name" : "BaronGOF",
     "battletags" : ["BaronGOF-2402", "TheDebaser-21783"],
     "loaded" : null,
@@ -33,6 +34,7 @@ let Baron = {
 }
 
 let Metodios = {
+    "index" : "1",
 	"name" : "Metodios",
 	"battletags" : ["Metodios-2865", "Motodies-2516"],
 	"rank": [],
@@ -64,6 +66,7 @@ let Metodios = {
 }
 
 let Alykas = {
+    "index" : "2",
 	"name" : "Alykas",
 	"battletags" : ["Alykas-2309", "Sacha-21922", "Sacha-21159"],
 	"rank": [],
@@ -95,6 +98,7 @@ let Alykas = {
 }
 
 let Veybex = {
+    "index" : "3",
 	"name" : "Veybex",
 	"battletags" : ["Veybex-2428", "Sparks-21157"],
 	"rank": [],
@@ -126,6 +130,7 @@ let Veybex = {
 }
 
 let Aku = {
+    "index" : "4",
 	"name" : "Aku",
 	"battletags" : ["Aku-22455"],
 	"rank": [],
@@ -157,6 +162,7 @@ let Aku = {
 }
 
 let Greenfinite = {
+    "index" : "5",
 	"name" : "Greenfinite",
 	"battletags" : ["Greenfinite-2408"],
 	"level" : 0,
@@ -188,6 +194,7 @@ let Greenfinite = {
 }
 
 let Jadixa = {
+    "index" : "6",
 	"name" : "Jadixa",
 	"battletags" : ["Jadixa-2738"],
 	"level" : 0,
@@ -231,6 +238,16 @@ let team = {
 	"averageMaxRankIcon": null
 }
 
+let tableId = {
+    "BaronGOF" : 0,
+    "Metodios" : 1,
+    "Alykas" : 2,
+    "Veybex" : 3,
+    "Aku" : 4,
+    "Greenfinite" : 5,
+    "Jadixa" : 6
+}
+
 //setting the vue
 
 var app = new Vue({
@@ -240,6 +257,11 @@ var app = new Vue({
         team: team,
         version: "1.1"
     },
+    methods: {
+        refresh: function (event) {
+            pull(app.players[tableId[event.target.id]], 0);
+        }
+      },
     mounted() { 
         //getting localStorage data or deleting them if corrupted
 
@@ -306,6 +328,24 @@ function save() {
     getTeamStats();
 }
 
+function getRankIcon(rank){
+        //getting rankIcon corresponding to rank
+        if (rank >= 4000) return "./assets/ranks/gm.png";
+        else if (rank >= 3500) return "./assets/ranks/master.png";
+        else if (rank >= 3000) return "./assets/ranks/diamant.png";
+        else if (rank >= 2500) return "./assets/ranks/plat.png";
+        else return "./assets/ranks/gold.png";
+}
+
+function getRankName(rank){
+    //getting name corresponding to rank
+    if (rank >= 4000) return "gm";
+    else if (rank >= 3500) return "master";
+    else if (rank >= 3000) return "diamant";
+    else if (rank >= 2500) return "plat";
+    else return "gold";
+}
+
 //calculate team average and best/worst stats
 function getTeamStats() {
     let maxRank = 0;
@@ -339,23 +379,12 @@ function getTeamStats() {
     app.team.averageMaxRank = maxRankAverage;
 
     //getting rankIcon corresponding to rank
-    if (app.team.maxRank >= 4000) team.maxRankIcon = "./assets/ranks/gm.png";
-    else if (app.team.maxRank >= 3500) team.maxRankIcon = "./assets/ranks/master.png";
-    else if (app.team.maxRank >= 3000) team.maxRankIcon = "./assets/ranks/diamant.png";
-    else if (app.team.maxRank >= 2500) team.maxRankIcon = "./assets/ranks/plat.png";
-    else app.team.maxRankIcon = "./assets/ranks/gold.png";
 
-    if (app.team.minRank >= 4000) team.minRankIcon = "./assets/ranks/gm.png";
-    else if (app.team.minRank >= 3500) team.minRankIcon = "./assets/ranks/master.png";
-    else if (app.team.minRank >= 3000) team.minRankIcon = "./assets/ranks/diamant.png";
-    else if (app.team.minRank >= 2500) team.minRankIcon = "./assets/ranks/plat.png";
-    else app.team.minRankIcon = "./assets/ranks/gold.png";
+    team.maxRankIcon = getRankIcon(app.team.maxRank);
 
-    if (app.team.averageMaxRank >= 4000) team.averageMaxRankIcon = "./assets/ranks/gm.png";
-    else if (app.team.averageMaxRank >= 3500) team.averageMaxRankIcon = "./assets/ranks/master.png";
-    else if (app.team.averageMaxRank >= 3000) team.averageMaxRankIcon = "./assets/ranks/diamant.png";
-    else if (app.team.averageMaxRank >= 2500) team.averageMaxRankIcon = "./assets/ranks/plat.png";
-    else app.team.averageMaxRankIcon = "./assets/ranks/gold.png";
+    team.minRankIcon = getRankIcon(app.team.minRank);
+
+    team.averageMaxRankIcon = getRankIcon(app.team.averageMaxRank);
 }
 
 
@@ -414,18 +443,9 @@ function pull(player, index) {
                         //player.level = data.eu.stats.competitive.overall_stats.level + 100 * data.eu.stats.competitive.overall_stats.prestige;
 
                         // calculating rank name / image base on stats
-                        // TODO : make a function for this
-                        if (player.maxRank >= 4000) player.rankIcon = "./assets/ranks/gm.png";
-                        else if (player.maxRank >= 3500) player.rankIcon = "./assets/ranks/master.png";
-                        else if (player.maxRank >= 3000) player.rankIcon = "./assets/ranks/diamant.png";
-                        else if (player.maxRank >= 2500) player.rankIcon = "./assets/ranks/plat.png";
-                        else player.rankIcon = "./assets/ranks/gold.png";
 
-                        if (player.maxRank >= 4000) player.rankName = "gm";
-                        else if (player.maxRank >= 3500) player.rankName = "master";
-                        else if (player.maxRank >= 3000) player.rankName = "diamant";
-                        else if (player.maxRank >= 2500) player.rankName = "plat";
-                        else player.rankIcon = "gold";
+                        player.rankIcon = getRankIcon(player.maxRank);
+                        player.rankName = getRankName(player.maxRank);
 
                         //it's first player so average is his rank
                         player.averageRankIcon = player.rankIcon;
@@ -509,12 +529,7 @@ function pull(player, index) {
                     //if dataset isn't empty (is API trying to trick me sometimes ?)   
                     if (data.eu.stats.competitive.overall_stats) {
 
-                        //checking rankIcon (see TODO)
-                        if (player.averageRank >= 4000) player.averageRankIcon = "./assets/ranks/gm.png";
-                        else if (player.averageRank >= 3500) player.averageRankIcon = "./assets/ranks/master.png";
-                        else if (player.averageRank >= 3000) player.averageRankIcon = "./assets/ranks/diamant.png";
-                        else if (player.averageRank >= 2500) player.averageRankIcon = "./assets/ranks/plat.png";
-                        else player.rankIcon = "./assets/ranks/gold.png";
+                        player.averageRankIcon = getRankIcon(player.averageRank)
 
                         //Adding the smurf rank to the array (if not already done)
                         if (player.rank.length < index + 1) player.rank.push(data.eu.stats.competitive.overall_stats.comprank)
@@ -563,26 +578,13 @@ function pull(player, index) {
 
 
                         //if new best rank, setting the icon
-                        if (data.eu.stats.competitive.overall_stats.comprank > player.maxRank) {
-                            player.maxRank = data.eu.stats.competitive.overall_stats.comprank;
-                            if (player.maxRank >= 4000) player.rankIcon = "./assets/ranks/gm.png";
-                            else if (player.maxRank >= 3500) player.rankIcon = "./assets/ranks/master.png";
-                            else if (player.maxRank >= 3000) player.rankIcon = "./assets/ranks/diamant.png";
-                            else if (player.maxRank >= 2500) player.rankIcon = "./assets/ranks/plat.png";
-                            else player.rankIcon = "./assets/ranks/gold.png";
-                        }
 
-                        if (player.maxRank >= 4000) player.averageRankIcon = "./assets/ranks/gm.png";
-                        else if (player.averageRank >= 3500) player.averageRankIconn = "./assets/ranks/master.png";
-                        else if (player.averageRank >= 3000) player.averageRankIcon = "./assets/ranks/diamant.png";
-                        else if (player.averageRank >= 2500) player.averageRankIcon = "./assets/ranks/plat.png";
-                        else player.averageRankIcon = "./assets/ranks/gold.png";
 
-                        if (player.maxRank >= 4000) player.rankName = "gm";
-                        else if (player.maxRank >= 3500) player.rankName = "master";
-                        else if (player.maxRank >= 3000) player.rankName = "diamant";
-                        else if (player.maxRank >= 2500) player.rankName = "plat";
-                        else player.rankIcon = "gold";
+                        player.rankIcon = getRankIcon(player.maxRank);
+
+                        player.averageRankIcon = getRankIcon(player.averageRank);
+
+                        player.rankName = getRankName(player.maxRank);
 
                         //calculating new hero playtime
                         let mostPlayed = data.eu.heroes.playtime.competitive;
