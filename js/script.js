@@ -248,6 +248,8 @@ let tableId = {
     "Jadixa" : 6
 }
 
+let heroes = ["ana", "ashe", "bastion", "brigitte", "dva", "doomfist", "genji", "hanzo", "junkrat", "lucio", "mccree", "mei", "mercy", "moira", "orisa", "pharah", "reaper", "reinhardt", "roadhog", "soldier76", "sombra", "symmetra", "torbjorn", "tracer", "widowmaker", "winston", "wrecking_ball", "zarya", "zenyatta" ]
+
 //setting the vue
 
 var app = new Vue({
@@ -278,6 +280,7 @@ var app = new Vue({
                 try {
                     this.players = JSON.parse(localStorage.getItem('players'));
                     for (let i = 0; i < this.players.length; i++) {
+                        this.players[i].fetching = false;
                         if (this.players[i].lastUpdated)
                             this.players[i].lastUpdatedTimer = moment(this.players[i].lastUpdated).fromNow();
                     }
@@ -315,11 +318,6 @@ setTimeout(
 
 //save all players data into localstorage 
 function save() {
-    
-    //setting fetching to false to avoid infinite loading
-    for (let i = 0; i < app.players.length; i++) {
-        app.players[i].fetching = false;
-    }
     
     localStorage.setItem('players', JSON.stringify(app.players));
     localStorage.setItem('version', app.version);
@@ -433,6 +431,11 @@ function pull(player, index) {
                         player.winrate = data.eu.stats.competitive.overall_stats.win_rate;
                         player.endorsement = data.eu.stats.competitive.overall_stats.endorsement_level;
                         player.rankTotal = data.eu.stats.competitive.overall_stats.comprank;
+
+                        player.winsTotal = player.wins[0];
+                        player.gamesTotal = player.games[0];
+                        player.drawsTotal = player.draws[0];
+                        player.lossTotal = player.loss[0];
 
                         //calculating winrate color
                         if (player.winrate > 51) player.winrateColor = "green";
@@ -564,8 +567,6 @@ function pull(player, index) {
                         for (let i = 0; i < player.games.length; i++) {
                             gamesTotal += player.games[i];
                         }
-
-                        console.log(avgRank, player.rank.length)
 
                         player.winrate = (Math.round(((gamesTotal * 100) / lossTotal) * 10) / 10) / 4;
                         player.averageRank = Math.round(avgRank / player.rank.length);
