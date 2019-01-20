@@ -274,6 +274,23 @@ var app = new Vue({
 
 getTeamStats();
 
+
+//update the time every 60000 secs
+setTimeout(
+    function(){
+        setInterval(
+            function(){
+                for (let i = 0; i < app.players.length; i++) {
+                    if (app.players[i].lastUpdated)
+                        app.players[i].lastUpdatedTimer = moment(app.players[i].lastUpdated).fromNow();
+                }
+            },
+            60000
+        )
+    },
+    60000
+)
+
 //save all players data into localstorage 
 function save() {
     
