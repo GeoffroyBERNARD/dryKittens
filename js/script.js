@@ -548,8 +548,12 @@ function pull(player, index) {
                         let lossTotal = 0;
                         let drawsTotal = 0;
                         let gamesTotal = 0;
+                        let maxRank = 0;
                         for (let i = 0; i < player.rank.length; i++) {
                             avgRank += player.rank[i]
+                            if (player.rank[i] > maxRank){
+                                maxRank = player.rank[i];
+                            }
                         }
 
                         for (let i = 0; i < player.wins.length; i++) {
@@ -580,6 +584,7 @@ function pull(player, index) {
 
                         //if new best rank, setting the icon
 
+                        player.maxRank = maxRank;
 
                         player.rankIcon = getRankIcon(player.maxRank);
 
